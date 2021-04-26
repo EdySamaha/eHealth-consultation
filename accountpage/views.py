@@ -32,12 +32,18 @@ def getUser(request): #Get user page with info to edit
 		# doctorselected=False
 
 		if request.method == 'POST': #Edit User (editUser)
-			if request.session['user_type']==1:
+			if request.session['user_type']=='1':
+				
 				form = DoctorForm(request.POST, instance=user)
-			elif request.session['user_type']==0:
+				
+			elif request.session['user_type']=='0':
+				
 				form = PatientForm(request.POST, instance=user)
 			else:
+				
 				return redirect('/')
+			
+			print("Doc/pat form: ", form)
 			if form.is_valid():
 				form.save()
 				return render(request, 'account.html', {'form': form, 'id':request.session['id'], 'isdoctor':request.session['user_type'] } ) #NOTE: VARIABLES IN HTML CANNOT START WITH '_' SO NO "_id"
